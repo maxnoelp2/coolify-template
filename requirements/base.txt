@@ -20,7 +20,7 @@ crispy-bootstrap5==2025.6  # https://github.com/django-crispy-forms/crispy-boots
 django-compressor==4.5.1  # https://github.com/django-compressor/django-compressor
 django-redis==6.0.0  # https://github.com/jazzband/django-redis
 
-uwsgi==2.0.30 # 
+uwsgi==2.0.30 #
 dj-database-url==3.0.1 # https://github.com/jazzband/dj-database-url
 django-storage-url==0.12.1
 easy-thumbnails[svg]==2.10 # https://github.com/SmileyChris/easy-thumbnails

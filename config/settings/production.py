@@ -91,17 +91,13 @@ aws_s3_domain = AWS_S3_CUSTOM_DOMAIN or f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws
 # ------------------------
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-            "location": "media",
-            "file_overwrite": False,
-        },
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-MEDIA_URL = f"https://{aws_s3_domain}/media/"
+# MEDIA_URL = f"https://{aws_s3_domain}/media/"  # noqa: ERA001
 
 # EMAIL
 # ------------------------------------------------------------------------------
