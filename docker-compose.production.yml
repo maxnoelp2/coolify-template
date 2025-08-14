@@ -1,0 +1,61 @@
+volumes:
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  production_traefik: {}
+  production_django_media: {}
+  production_staticfiles: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    networks:
+      - backend
+    volumes:
+      - production_django_media:/app/api/media
+      - production_staticfiles:/app/staticfiles
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    command: /start
+
+  postgres:
+    build:
+      context: .
+    # wichtig: gleiches Netz, sonst erreicht django die DB nicht
+      dockerfile: ./compose/production/postgres/Dockerfile
+    networks:
+      - backend
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data
+      - production_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+
+  redis:
+    image: docker.io/redis:6
+    networks:
+      - backend
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/production/nginx/Dockerfile
+    depends_on:
+      - django
+    volumes:
+      - production_django_media:/app/api/media:ro
+      - production_staticfiles:/app/staticfiles:ro
+    networks:
+      - backend
+    # Hinweis: Ports hier nur publishen, wenn Coolify NICHT selber mappt.
+    # ports:
+    #   - "8080:8080"
+
+networks:
+  backend:
+    driver: bridge
