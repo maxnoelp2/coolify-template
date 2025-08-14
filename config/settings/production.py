@@ -1,5 +1,8 @@
 # ruff: noqa: E501
+from pathlib import Path
+
 from .base import *  # noqa: F403
+from .base import BASE_DIR
 from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import REDIS_URL
@@ -71,8 +74,9 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-# MEDIA_URL = f"https://{aws_s3_domain}/media/"  # noqa: ERA001
-
+# MEDIA_URL # noqa: ERA001
+STATIC_ROOT = str(Path(BASE_DIR) / "staticfiles")
+MEDIA_ROOT = str(Path(BASE_DIR) / "media")
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
